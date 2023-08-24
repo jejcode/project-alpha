@@ -42,7 +42,7 @@ const playabilityTest = (map) => {
   // If there is more than one set of open spaces, there is an island
   // and the map is not playable. Return false until map is playable.
   if(openChunks.length === 1) {
-    return openChunks
+    return openChunks[0]
   }
   else return false
 };

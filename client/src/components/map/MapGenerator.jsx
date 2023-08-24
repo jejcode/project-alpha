@@ -1,7 +1,8 @@
 // import generatePopulatedChunk from "../../utilities/map/functions/create-populated-chunk";
-import { useMemo } from "react";
+import { useMemo, useContext, useEffect } from "react";
 import generateMap from "../../utilities/map/map-engine";
-import playerStartPoint from "../../utilities/map/functions/player-start-point";
+import { getPlayer } from "../../entities/player/getPlayer";
+import { playerStartCenter } from "../../utilities/map/functions/player-start-point";
 import Row from "./tiles/Row";
 import Tile from "./tiles/Tile";
 import TileWall from "./tiles/TileWall";
@@ -11,11 +12,12 @@ import "../../css/map/tiles.css";
 
 const MapGenerator = () => {
   // generate a map based on three different algos: web, chain, or spoke
+  const {randomMap, spawnPoints} = useMemo(() => generateMap(2, 2), []);
 
-  const randomMap = useMemo(() => generateMap(2, 2), []);
-  const startingPoint = playerStartPoint(randomMap)
-  console.log(startingPoint)
-  
+  // set player coordinates to get spawned into map
+  // const player = useContext(getPlayer)
+  // const {x,y} = playerStartCenter(randomMap)
+  // player.setLocalCoordinates(x,y)
   return (
     <div id="map-container">
       {randomMap.map((row, rIndex) => {
@@ -25,7 +27,7 @@ const MapGenerator = () => {
               tile === 2 ? (
                 <Tile
                   key={`r${cIndex}`}
-                  tileCoords={{ tileX: cIndex, tileY: rIndex }}
+                  tileCoords={{ tileX: cIndex, tileY: rIndex, spawnPoints: spawnPoints }}
                 />
               ) : (
                 <TileWall key={`r${cIndex}`} />

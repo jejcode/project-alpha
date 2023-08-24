@@ -24,16 +24,17 @@ const generateMap = (rows,cols, chunkSize = 10) => {
   }
   // run playabilty test to ensure all open spaces are connected. No islands!!
   let validMap = false
-  let mapTry = createMap()
+  let mapTry, mapTest
   while(!validMap){
-    const mapTest = playabilityTest(mapTry)
+    mapTry = createMap()
+    mapTest = playabilityTest(mapTry)
     if(mapTest){
       validMap = true
     } else {
       mapTry = createMap()
     }
   }
-  return mapTry
+  return {randomMap: mapTry, spawnPoints: mapTest}
 }
 
 export default generateMap
